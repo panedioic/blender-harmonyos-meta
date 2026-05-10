@@ -162,11 +162,31 @@ git clone https://github.com/panedioic/blender-harmonyos.git blender
 ### 4. DevEco Studio App 工程组装打包
 
 在您的 Windows 主机上，克隆前端应用工程代码：
+
 ```bash
-git clone https://github.com/panedioic/blender-harmonyos-app.git
+git clone https://github.com/<your_username>/blender-harmonyos-app.git
 ```
 
-该工程代码一般无需二次开发修改。您只需完成拼装和签名：
+该工程代码一般无需二次开发修改。但您在进行编译运行前，需要完成**库文件拼装**和**核心资源文件拷贝**：
 
-1. **放入库文件**：将上面编译出的 `libblender.so`，连同各种必须要的三方 `.so` 动态库，拷入 App 工程的 `entry/libs/arm64-v8a/` 目录下。（此仓库中提供了一个 `copy_so.sh` 脚本，可快速帮您筛选复制必要的库文件）。
-2. **构建与运行**：使用 DevEco Studio 打开工程，在 IDE 中连接您的真机设备。配置好个人开发者签名（Auto Sign），最后点击右上角的绿色三角形（Run），稍等片刻，Blender 的熟悉画面就会出现在您的设备上了！ 🎉
+#### 4.1 放入动态链接库 (.so)
+将上面编译出的核心引擎 `libblender.so`，连同各种必须要的三方依赖的动态链接库（`.so` 文件），一并拷入 App 工程的 `entry/libs/arm64-v8a/` 目录下。
+*(注：Meta 仓库中提供了一个 `copy_so.sh` 脚本，您可以依靠它快速筛选并复制必要的库文件，避免遗漏)*。
+
+#### 4.2 准备运行资源文件 (Rawfiles)
+Blender 的正常运行强依赖于其内部的数据文件、UI 脚本以及 Python 的标准库。在 App 安装时，这些文件需要通过鸿蒙的 `rawfile` 打包进应用内部。
+请**手动**将以下文件夹复制到 App 工程的目录下（如果该目录不存在则新建它）：
+
+1. **`datafiles` 文件夹**：移动至 `entry/src/main/resources/rawfile/blender/` 目录下。来源于 Blender 源码目录的 `release/datafiles/`（包含 UI 字体、图标、着色器资源等）。
+2. **`scripts` 文件夹**：移动至 `entry/src/main/resources/rawfile/blender/` 目录下。来源于 Blender 源码目录的 `release/scripts/`（包含核心的 Python UI 布局脚本、插件和 startup 逻辑）。
+3. **Python 运行库**：移动至 `entry/src/main/resources/rawfile/python_home/` 目录下。将静态编译 CPython 时配套的 `lib/python3.11` 文件夹（只包含 `.py` 标准库代码，剔除不需要的测试文件）放在一个预设好的文件夹（如 `python_home/lib/python3.11/`）内放入 `rawfile`。
+
+> 💡 **提示**：应用在首次启动时，会耗费十几秒钟的时间将 `rawfile` 目录解压到沙盒的 files 目录下。这是保障 Blender 渲染和 Python 初始化不出错的前提。
+
+#### 4.3 构建与运行
+1. 使用 DevEco Studio 打开配置好的工程。
+2. 连接您的 HarmonyOS 真机设备。
+3. 在 `File -> Project Structure -> Signing Configs` 中配置好个人的开发者签名（选中 Auto Sign）。
+4. 最后，点击右上角的绿色三角形（Run）进行编译并将其安装到设备端。
+
+稍等片刻，通过闪屏动画引导后，Blender 熟悉的灰色工作区就会呈现在您的鸿蒙设备屏幕上了！ 🎉
