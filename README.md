@@ -18,11 +18,12 @@
 
 ## 📂 源码与仓库结构
 
-为了方便管理庞大的源码和多语言环境，本项目被拆分为三个核心仓库：
+为了方便管理庞大的源码和多语言环境，本项目被拆分为**四个**核心仓库：
 
 1. 📖 **[blender-harmonyos-meta](https://github.com/panedioic/blender-harmonyos-meta)**（当前仓库）：储存构建相关脚本、整体指南、依赖预编译包以及应用发布包（HAP）。
 2. 🛠️ **[blender-harmonyos](https://github.com/panedioic/blender-harmonyos)**：包含经过鸿蒙化 Patch 修改后的 Blender 4.5 源码，负责输出核心引擎库 `libblender.so`。
-3. 📱 **[blender-harmonyos-app](https://github.com/panedioic/blender-harmonyos-app)**：HarmonyOS ArkUI 胶水层前端，这是一个 DevEco Studio 工程，负责 UI 渲染、事件采集和最终打包。
+3. 📦 **[blender-harmonyos-lib](https://github.com/panedioic/blender-harmonyos-lib)**：储存 Blender 所需三方库的 Lycium `HPKBUILD` 构建配方及补丁文件，用于交叉编译 CPython、Boost、OpenImageIO 等一众依赖。
+4. 📱 **[blender-harmonyos-app](https://github.com/panedioic/blender-harmonyos-app)**：HarmonyOS ArkUI 胶水层前端，这是一个 DevEco Studio 工程，负责 UI 渲染、事件采集和最终打包。
 
 ---
 
