@@ -76,7 +76,9 @@ cmake -S . -B ../build-host \
   -DWITH_HEADLESS=OFF \
   -DWITH_UI_TESTS=OFF \
   -DWITH_GHOST_DEBUG=OFF \
-  -DCMAKE_BUILD_TYPE=Debug
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_C_FLAGS="-g -O2 -UNDEBUG" \
+  -DCMAKE_CXX_FLAGS="-g -O2 -UNDEBUG" \
 
 # 编译
 cmake --build ../build-host --target blender -j$(nproc)

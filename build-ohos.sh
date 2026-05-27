@@ -63,7 +63,9 @@ ${OHOS_CMAKE} -S . -B $BUILD -G Ninja \
   -DOHOS_PLATFORM=OHOS            \
   -DOHOS_STL=c++_shared           \
   \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_C_FLAGS="-g -O2 -UNDEBUG" \
+  -DCMAKE_CXX_FLAGS="-g -O2 -UNDEBUG" \
   -DWITH_ASSERT_ABORT=OFF \
   -DCMAKE_CROSSCOMPILING_EMULATOR=$BUILD/qemu-bridge.sh \
   \
